@@ -18,6 +18,7 @@ static float gDepthmap[DEPTH_MAP_SIZE][DEPTH_MAP_SIZE];
 static float depth_max, depth_min;
 
 static int mouse_x, mouse_y;
+static int mouse_m_pressed;
 static int mouse_moving;
 static int width = 512, height = 512;
 static float view_org[3], view_tgt[3];
@@ -121,15 +122,16 @@ draw_mesh()
 
     glBegin(GL_QUADS);
     for (y = 0; y < DEPTH_MAP_SIZE-1; y++) {
+        int yy = DEPTH_MAP_SIZE-1-y;
         for (x = 0; x < DEPTH_MAP_SIZE-1; x++) {
             glTexCoord2f((x + 0) * w, 1.0 - (y+0) * w); 
-            glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[y+0][x+0]-ds));
+            glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[yy+0][x+0]-ds));
             glTexCoord2f((x + 0) * w, 1.0 - (y+1) * w); 
-            glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[y+1][x+0]-ds));
+            glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[yy-1][x+0]-ds));
             glTexCoord2f((x + 1) * w, 1.0 - (y+1) * w); 
-            glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[y+1][x+1]-ds));
+            glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[yy-1][x+1]-ds));
             glTexCoord2f((x + 1) * w, 1.0 - (y+0) * w); 
-            glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[y+0][x+1]-ds));
+            glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[yy+0][x+1]-ds));
         }
     }
     glEnd();
@@ -199,30 +201,44 @@ keyboard(unsigned char key, int x, int y)
 static void
 mouse(int button, int state, int x, int y)
 {
+    int mod = glutGetModifiers();
+
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        trackball(prev_quat, 0, 0, 0, 0);
+        if (mod == GLUT_ACTIVE_SHIFT) {
+            mouse_m_pressed = 1;
+        } else {
+            trackball(prev_quat, 0, 0, 0, 0);
+        }
         mouse_moving = 1;
         mouse_x = x;
         mouse_y = y;
-    }
-
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+    } else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+        mouse_m_pressed = 0;
         mouse_moving = 0;
     }
+ 
 }
     
 static void
 motion(int x, int y)
 {
     float w = 1.0;
+    float mw = 0.1;
 
     if (mouse_moving) {
-        trackball(prev_quat,
-              w * (2.0 * mouse_x - width)  / width,
-              w * (height - 2.0 * mouse_y) / height,
-              w * (2.0 * x - width)  / width,
-              w * (height - 2.0 * y) / height);
-        add_quats(prev_quat, curr_quat, curr_quat);
+        if (mouse_m_pressed) {
+            view_org[0] += mw * (mouse_x - x);
+            view_org[1] -= mw * (mouse_y - y);
+            view_tgt[0] += mw * (mouse_x - x);
+            view_tgt[1] -= mw * (mouse_y - y);
+        } else {
+            trackball(prev_quat,
+                  w * (2.0 * mouse_x - width)  / width,
+                  w * (height - 2.0 * mouse_y) / height,
+                  w * (2.0 * x - width)  / width,
+                  w * (height - 2.0 * y) / height);
+            add_quats(prev_quat, curr_quat, curr_quat);
+        }
 
         mouse_x = x;
         mouse_y = y;
