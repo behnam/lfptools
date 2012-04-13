@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <float.h>
 
-#include <GLUT/glut.h>
+#include <GL/glut.h>
 
 #include "stb_image.c"
 
