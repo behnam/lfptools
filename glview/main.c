@@ -71,7 +71,7 @@ setup_textures(
     int comp;
     int req_comp = 3; // RGB
 
-    assert(gNumLayers < MAX_NUM_LAYERS);
+    assert(gNumLayers <= MAX_NUM_LAYERS);
 
     glGenTextures(gNumLayers, gTexIDs);
 
