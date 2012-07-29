@@ -1,0 +1,39 @@
+{
+	"picture" : {
+		"frameArray" : [
+			{
+				"frame" : {
+					"metadataRef" : "sha1-ce3f98f73890cc12958b89acb23f7974bec90610",
+					"privateMetadataRef" : "sha1-992ae2d9f755077e50de7b9b1357e873885b3382",
+					"imageRef" : "sha1-06ae44216bf153a76fdf80ba48794c2d0d8b740b"
+				},
+				"parameters" : {
+					"vendorContent" : {
+						"com.lytro.tags" : {
+							"darkFrame" : false,
+							"modulationFrame" : false
+						}
+					}
+				}
+			}
+		],
+		"viewArray" : [
+			{
+				"type" : "com.lytro.stars",
+				"vendorContent" : {
+					"starred" : false
+				}
+			}
+		],
+		"accelerationArray" : [],
+		"derivationArray" : [
+			"sha1-48c4813f0cfd3460f9454539d23d724827a25743"
+		]
+	},
+	"thumbnailArray" : [],
+	"version" : {
+		"major" : 1,
+		"minor" : 0,
+		"provisionalDate" : "2011-08-03"
+	}
+}
