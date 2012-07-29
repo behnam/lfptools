@@ -124,13 +124,13 @@ draw_mesh()
     for (y = 0; y < DEPTH_MAP_SIZE-1; y++) {
         int yy = DEPTH_MAP_SIZE-1-y;
         for (x = 0; x < DEPTH_MAP_SIZE-1; x++) {
-            glTexCoord2f((x + 0) * w, 1.0 - (y+0) * w); 
+            glTexCoord2f((x + 0) * w, 1.0 - (y+0) * w);
             glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[yy+0][x+0]-ds));
-            glTexCoord2f((x + 0) * w, 1.0 - (y+1) * w); 
+            glTexCoord2f((x + 0) * w, 1.0 - (y+1) * w);
             glVertex3d(2.0*(x+0)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[yy-1][x+0]-ds));
-            glTexCoord2f((x + 1) * w, 1.0 - (y+1) * w); 
+            glTexCoord2f((x + 1) * w, 1.0 - (y+1) * w);
             glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+1)*w - 1.0, -dw*(gDepthmap[yy-1][x+1]-ds));
-            glTexCoord2f((x + 1) * w, 1.0 - (y+0) * w); 
+            glTexCoord2f((x + 1) * w, 1.0 - (y+0) * w);
             glVertex3d(2.0*(x+1)*w - 1.0, 2.0*(y+0)*w - 1.0, -dw*(gDepthmap[yy+0][x+1]-ds));
         }
     }
@@ -180,7 +180,7 @@ keyboard(unsigned char key, int x, int y)
     case 'q':
     case 27:
         exit(0);
-        break; 
+        break;
     case 'j':
         curr_layer--;
         if (curr_layer < 0) curr_layer = 0;
@@ -192,7 +192,7 @@ keyboard(unsigned char key, int x, int y)
         printf("layer %d\n", curr_layer);
         break;
     default:
-        break; 
+        break;
     }
 
     glutPostRedisplay();
@@ -216,9 +216,9 @@ mouse(int button, int state, int x, int y)
         mouse_m_pressed = 0;
         mouse_moving = 0;
     }
- 
+
 }
-    
+
 static void
 motion(int x, int y)
 {
@@ -242,7 +242,7 @@ motion(int x, int y)
 
         mouse_x = x;
         mouse_y = y;
-        
+
     }
 
     glutPostRedisplay();

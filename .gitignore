@@ -1,4 +1,5 @@
 lfpsplitter
+glview/lfpview
 *.o
 .*.swp
 *~
