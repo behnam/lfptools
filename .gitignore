@@ -1,0 +1,4 @@
+lfpsplitter
+*.o
+.*.swp
+*~

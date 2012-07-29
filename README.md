@@ -14,29 +14,33 @@ and the compressed files that the desktop software produces for web display.
 
 The file itself is formatted as follows.  First, a header:
 
-    # magic 12 byte header (LFP)
-    89 4C 46 50 0D 0A 1A 0A 00 00 00 01
-    # 4 byte length (0, since there is nothing in this section)
-    00 00 00 00
-    
+```
+# magic 12 byte header (LFP)
+89 4C 46 50 0D 0A 1A 0A 00 00 00 01
+# 4 byte length (0, since there is nothing in this section)
+00 00 00 00
+```
+
 After this are a number of sections.  The data in the first is plain text
 JSON table of contents describing what the rest of the sections in the file
 contain.  The remaining sections can be additional metadata, a depth lookup
 table, compressed jpg images, or raw sensor data depending on the file.
 The sections are formatted as follows:
-    
-    # magic 12 byte header (containing a type like LFM or LFC)
-    89 4C 46 4D 0D 0A 1A 0A 00 00 00 00
-    # 4 byte length, not including header, sha1, or null padding
-    00 00 07 A7
-    # 45 bytes of sha1 hash as hex in ascii
-    73 68 61 31 ...
-    # 35 bytes of null padding
-    00 00 00 00 ...
-    # the data of length previously specified
-    7B 22 70 69 ...
-    # 0 or more bytes of null padding
-    00 00 00 00 ...
+
+```
+# magic 12 byte header (containing a type like LFM or LFC)
+89 4C 46 4D 0D 0A 1A 0A 00 00 00 00
+# 4 byte length, not including header, sha1, or null padding
+00 00 07 A7
+# 45 bytes of sha1 hash as hex in ascii
+73 68 61 31 ...
+# 35 bytes of null padding
+00 00 00 00 ...
+# the data of length previously specified
+7B 22 70 69 ...
+# 0 or more bytes of null padding
+00 00 00 00 ...
+```
 
 .lfp web files
 --------------
@@ -64,25 +68,27 @@ the format of the captured image, and the other containing serial numbers.
 lfpsplitter
 -----------
 
-lfpsplitter is a commandline tool that reads in a .lfp file and splits it into
-a plaintext metadata file, a plaintext listing of the depth lookup table, and
-the component jpgs.
+*lfpsplitter* is a commandline tool that reads in a .lfp file and splits it
+intoa plaintext metadata file, a plaintext listing of the depth lookup table,
+and the component jpgs.
 
-    make
-        gcc -O3 -Wall    -c -o lfpsplitter.o lfpsplitter.c
-        gcc -o lfpsplitter lfpsplitter.o  -O3 -Wall 
+```
+make
+    gcc -O3 -Wall    -c -o lfpsplitter.o lfpsplitter.c
+    gcc -o lfpsplitter lfpsplitter.o  -O3 -Wall 
 
-    ./lfpsplitter IMG_0001.lfp
-        Saved IMG_0001_table.json
-        Saved IMG_0001_imageRef0.raw
-        Saved IMG_0001_metadataRef.json
-        Saved IMG_0001_privateMetadataRef.json
+./lfpsplitter IMG_0001.lfp
+    Saved IMG_0001_table.json
+    Saved IMG_0001_imageRef0.raw
+    Saved IMG_0001_metadataRef.json
+    Saved IMG_0001_privateMetadataRef.json
 
-    ./lfpsplitter IMG_0001-stk.lfp
-        Saved IMG_0001-stk_table.json
-        Saved IMG_0001-stk_depth.txt
-        Saved IMG_0001-stk_0.jpg
-        Saved IMG_0001-stk_1.jpg
-        Saved IMG_0001-stk_2.jpg
-        Saved IMG_0001-stk_3.jpg
+./lfpsplitter IMG_0001-stk.lfp
+    Saved IMG_0001-stk_table.json
+    Saved IMG_0001-stk_depth.txt
+    Saved IMG_0001-stk_0.jpg
+    Saved IMG_0001-stk_1.jpg
+    Saved IMG_0001-stk_2.jpg
+    Saved IMG_0001-stk_3.jpg
+```
 
