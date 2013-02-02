@@ -3,3 +3,6 @@ glview/lfpview
 *.o
 .*.swp
 *~
+/as3/.*
+/as3/bin-debug
+/as3/samples
